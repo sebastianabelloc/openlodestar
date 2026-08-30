@@ -1,0 +1,40 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "openlodestar"
+version = "0.1.0"
+description = "Open-source spacecraft Attitude Determination and Control (ADCS) simulator."
+readme = "README.md"
+license = { file = "LICENSE" }
+requires-python = ">=3.10"
+authors = [
+    { name = "Sebastian Abello", email = "sebastian.abelloc@gmail.com" },
+]
+keywords = ["adcs", "spacecraft", "attitude", "control", "simulation", "aerospace"]
+classifiers = [
+    "Development Status :: 2 - Pre-Alpha",
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Topic :: Scientific/Engineering :: Physics",
+]
+dependencies = [
+    "numpy>=1.24",
+    "matplotlib>=3.7",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.0",
+]
+
+[project.urls]
+Repository = "https://github.com/sebastianabelloc/openlodestar"
+
+[tool.hatch.build.targets.wheel]
+packages = ["openlodestar"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
