@@ -40,3 +40,30 @@ def quat_rotate_vector(q, v):
     v_q = np.array([0.0, v[0], v[1], v[2]])
     v_rot_q = quat_mul(quat_mul(q, v_q), quat_conjugate(q))
     return v_rot_q[1:]
+
+
+def quat_derivative(q, omega):
+    """Time derivative of an attitude quaternion given body angular velocity.
+
+    Uses the kinematic equation
+
+        q_dot = 0.5 * q * omega_pure
+
+    where ``omega_pure`` is the body angular velocity ``(wx, wy, wz)``
+    promoted to a pure quaternion ``(0, wx, wy, wz)`` and ``*`` is the
+    Hamilton product.
+
+    Parameters
+    ----------
+    q : array-like of shape (4,)
+        Current attitude quaternion (w, x, y, z), assumed unit norm.
+    omega : array-like of shape (3,)
+        Body angular velocity in rad/s.
+
+    Returns
+    -------
+    numpy.ndarray of shape (4,)
+        The 4-component time derivative of ``q``.
+    """
+    omega_pure = np.array([0.0, omega[0], omega[1], omega[2]])
+    return 0.5 * quat_mul(q, omega_pure)

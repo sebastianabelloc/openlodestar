@@ -4,10 +4,17 @@ Visually identical to `cube_matrix.py`; the point is precisely that they
 match, showing that a rotation matrix and a unit quaternion encode the
 same rotation.
 
-Uses the quaternion utilities from the OpenLodestar package, which must
-be installed in editable mode first (`pip install -e .` from the repo
-root).
+Uses the quaternion utilities from the OpenLodestar package.
 """
+
+# --- Path bootstrap: make the example runnable without needing the
+# openlodestar package installed. Adds the repo root to sys.path so
+# `from openlodestar...` always resolves.
+import sys
+from pathlib import Path
+_repo_root = Path(__file__).resolve().parent.parent
+if str(_repo_root) not in sys.path:
+    sys.path.insert(0, str(_repo_root))
 
 import numpy as np
 import matplotlib.pyplot as plt
