@@ -30,22 +30,24 @@ from openlodestar.utils.quaternions import quat_rotate_vector
 
 
 # --- Spacecraft configuration ------------------------------------------
-# Asymmetric CubeSat-scale inertia (kg m^2).
-inertia_diag = np.array([0.10, 0.12, 0.15])
+# Very asymmetric inertia (4:1 ratio) to make the intermediate-axis
+# instability (Dzhanibekov effect) as visible as possible.
+# Iyy is the intermediate value, so y is the unstable axis.
+inertia_diag = np.array([0.05, 0.10, 0.20])
 
 # Initial attitude: identity (body frame aligned with inertial frame).
 q0 = np.array([1.0, 0.0, 0.0, 0.0])
 
-# Initial angular velocity (rad/s). Not aligned with any principal axis
-# so that nutation is visible.
-omega0 = np.array([0.4, 0.9, 0.2])
+# Initial angular velocity (rad/s): nearly pure spin around the
+# intermediate axis (y) with a tiny perturbation to trigger flips.
+omega0 = np.array([0.05, 2.0, 0.05])
 
 y0 = np.concatenate([q0, omega0])
 
 
 # --- Simulation (run once, cache q(t)) ---------------------------------
-t_end = 20.0
-n_frames = 500
+t_end = 40.0
+n_frames = 800
 
 sol = solve_ivp(
     state_derivative,
@@ -118,6 +120,17 @@ for i in range(3):
     )
     body_lines.append(line)
 
+# Marker vertex - single red dot glued to one corner of the cube.
+# Makes the tumbling motion much more visible by giving the eye a
+# feature to track. Vertex 6 = (+0.5, +0.5, +0.5) initially.
+MARKER_INDEX = 6
+marker_scatter = ax.scatter(
+    [vertices[MARKER_INDEX, 0]],
+    [vertices[MARKER_INDEX, 1]],
+    [vertices[MARKER_INDEX, 2]],
+    color="red", s=80, depthshade=False, zorder=10,
+)
+
 # Time counter overlay (top-left of the plot)
 time_text = ax.text2D(0.02, 0.95, "", transform=ax.transAxes)
 
@@ -145,9 +158,15 @@ def update(frame):
             [0, endpoint[0]], [0, endpoint[1]], [0, endpoint[2]],
         )
 
+    # Move the marker dot with the vertex it is attached to
+    marker_pos = rotated[MARKER_INDEX]
+    marker_scatter._offsets3d = (
+        [marker_pos[0]], [marker_pos[1]], [marker_pos[2]],
+    )
+
     time_text.set_text(f"t = {t_frames[frame]:6.2f} s")
 
-    return lines + body_lines + [time_text]
+    return lines + body_lines + [marker_scatter, time_text]
 
 
 anim = FuncAnimation(fig, update, frames=n_frames, interval=40, blit=False)
