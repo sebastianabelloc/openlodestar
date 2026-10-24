@@ -26,7 +26,7 @@ from matplotlib.animation import FuncAnimation
 from scipy.integrate import solve_ivp
 
 from openlodestar.dynamics import state_derivative
-from openlodestar.utils.quaternions import quat_rotate_vector
+from openlodestar.quaternions import rotate_vector
 
 
 # --- Spacecraft configuration ------------------------------------------
@@ -140,7 +140,7 @@ def update(frame):
     q = q_frames[:, frame]
 
     # Rotate cube vertices with the current attitude
-    rotated = np.array([quat_rotate_vector(q, v) for v in vertices])
+    rotated = np.array([rotate_vector(q, v) for v in vertices])
     for k, (i, j) in enumerate(edges):
         lines[k].set_data_3d(
             [rotated[i, 0], rotated[j, 0]],
@@ -150,7 +150,7 @@ def update(frame):
 
     # Rotate body axes with the same attitude
     rotated_endpoints = np.array([
-        quat_rotate_vector(q, e) for e in body_axes_endpoints
+        rotate_vector(q, e) for e in body_axes_endpoints
     ])
     for i in range(3):
         endpoint = rotated_endpoints[i]

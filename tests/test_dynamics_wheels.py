@@ -16,7 +16,7 @@ from openlodestar.dynamics import (
     total_angular_momentum_body,
     wheel_momentum_body,
 )
-from openlodestar.utils.quaternions import quat_rotate_vector
+from openlodestar.quaternions import rotate_vector
 
 
 # --- Shared configuration: 3-orthogonal-wheel CubeSat ------------------
@@ -149,7 +149,7 @@ def test_inertial_angular_momentum_is_conserved_over_short_run():
         omega = y[4:7, k]
         wheel_speeds = y[7:, k]
         h_body = total_angular_momentum_body(INERTIA, omega, wheels, wheel_speeds)
-        h_inertial = quat_rotate_vector(q, h_body)
+        h_inertial = rotate_vector(q, h_body)
         h_inertial_magnitude[k] = np.linalg.norm(h_inertial)
 
     relative_variation = (

@@ -20,9 +20,9 @@ import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib.animation import FuncAnimation
 
-from openlodestar.utils.quaternions import (
+from openlodestar.quaternions import (
     axis_angle_to_quat,
-    quat_rotate_vector,
+    rotate_vector,
 )
 
 
@@ -85,7 +85,7 @@ def update(frame):
     angle = np.deg2rad(frame)
     q = axis_angle_to_quat(axis=[0, 0, 1], angle_rad=angle)
 
-    rotated = np.array([quat_rotate_vector(q, v) for v in vertices])
+    rotated = np.array([rotate_vector(q, v) for v in vertices])
     for k, (i, j) in enumerate(edges):
         lines[k].set_data_3d(
             [rotated[i, 0], rotated[j, 0]],
@@ -94,7 +94,7 @@ def update(frame):
         )
 
     rotated_endpoints = np.array([
-        quat_rotate_vector(q, e) for e in body_axes_endpoints
+        rotate_vector(q, e) for e in body_axes_endpoints
     ])
     for i in range(3):
         endpoint = rotated_endpoints[i]

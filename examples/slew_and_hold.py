@@ -33,7 +33,7 @@ from openlodestar.control import (
     pd_torque_on_body,
 )
 from openlodestar.dynamics import state_derivative_with_wheels
-from openlodestar.utils.quaternions import axis_angle_to_quat
+from openlodestar.quaternions import axis_angle_to_quat
 
 
 # --- Spacecraft configuration ------------------------------------------

@@ -8,7 +8,7 @@ CubeSat modelling needs and keeps the algebra transparent.
 import numpy as np
 
 from openlodestar.actuators import wheel_actual_torque
-from openlodestar.utils.quaternions import quat_derivative, quat_rotate_vector
+from openlodestar.quaternions import quaternion_derivative, rotate_vector
 
 
 def angular_acceleration(omega, inertia_diag, torque=None):
@@ -88,7 +88,7 @@ def state_derivative(t, y, inertia_diag, torque_func=None):
 
     tau = None if torque_func is None else torque_func(t, y)
 
-    q_dot = quat_derivative(q, omega)
+    q_dot = quaternion_derivative(q, omega)
     omega_dot = angular_acceleration(omega, inertia_diag, torque=tau)
 
     return np.concatenate([q_dot, omega_dot])
@@ -201,6 +201,6 @@ def state_derivative_with_wheels(
     wheel_speeds_dot = tau_actuals / wheel_inertias
 
     # Quaternion kinematics
-    q_dot = quat_derivative(q, omega)
+    q_dot = quaternion_derivative(q, omega)
 
     return np.concatenate([q_dot, omega_dot, wheel_speeds_dot])

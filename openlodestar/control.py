@@ -10,7 +10,7 @@ body frame.
 
 import numpy as np
 
-from openlodestar.utils.quaternions import quat_conjugate, quat_mul
+from openlodestar.quaternions import quaternion_conjugate, quaternion_multiplication
 
 
 def attitude_error_quaternion(q_current, q_target):
@@ -44,7 +44,7 @@ def attitude_error_quaternion(q_current, q_target):
     """
     q_current = np.asarray(q_current, dtype=float)
     q_target = np.asarray(q_target, dtype=float)
-    q_e = quat_mul(quat_conjugate(q_current), q_target)
+    q_e = quaternion_multiplication(quaternion_conjugate(q_current), q_target)
     if q_e[0] < 0.0:
         q_e = -q_e
     return q_e

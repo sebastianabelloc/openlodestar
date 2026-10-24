@@ -47,14 +47,14 @@ openlodestar/
 ├── dynamics.py           Euler's equations, coupled spacecraft + wheels dynamics, angular momentum
 ├── actuators.py          reaction wheel model with torque and speed saturation
 ├── control.py            error quaternion, PD-on-quaternion law, wheel allocation
-└── utils/quaternions.py  quaternion operations
+└── quaternions.py        quaternion operations
 examples/                 runnable demos (see table above)
 tests/                    pytest suite: quaternions, dynamics, wheels, control, simulation
 ```
 
 ## Technical conventions
 
-- **Quaternions:** Hamilton, (w, x, y, z), mapping body vectors to inertial vectors. Documented in `utils/quaternions.py`.
+- **Quaternions:** Hamilton, (w, x, y, z), mapping body vectors to inertial vectors. Documented in `quaternions.py`.
 - **Frames:** inertial and body. Angular velocity is expressed in the body frame.
 - **Units:** SI (kg, m, s, rad).
 - **Integration:** `scipy.integrate.solve_ivp` (RK45).

@@ -12,7 +12,7 @@ from openlodestar.control import (
     attitude_error_quaternion,
     pd_torque_on_body,
 )
-from openlodestar.utils.quaternions import axis_angle_to_quat
+from openlodestar.quaternions import axis_angle_to_quat
 
 
 Q_ID = np.array([1.0, 0.0, 0.0, 0.0])
