@@ -33,12 +33,12 @@ A *lodestar* is a navigation star. OpenLodestar simulates the closed loop a sate
 ```bash
 git clone https://github.com/sebastianabelloc/openLodestar.git
 cd openLodestar
-pip install -e ".[dev]"
+pip install -r requirements.txt
 python -m pytest -q
 python examples/slew_and_hold.py
 ```
 
-Requires Python 3.10+, NumPy, SciPy and Matplotlib. The examples also run without installing the package.
+Requires Python 3.10+, NumPy, SciPy and Matplotlib.
 
 ## Repository layout
 
